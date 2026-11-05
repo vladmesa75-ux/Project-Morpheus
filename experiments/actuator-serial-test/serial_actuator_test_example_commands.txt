@@ -1,0 +1,199 @@
+Serial actuator test example commands
+====================================
+
+Serial monitor settings:
+- Baud rate: 115200
+- Line ending: Newline
+
+Important safety:
+- Remove propellers before testing motors or ESCs.
+- Start motor and ESC values very low.
+- Use CENTER or SAFE before plugging/unplugging anything.
+
+------------------------------------------------------------
+Due servo commands
+------------------------------------------------------------
+
+Set a Due servo by pin number:
+DP 43 1600
+
+Set Due servo on pin 43 to center:
+DP 43 1500
+
+Set Due servo on pin 45 to 1200 us:
+DP 45 1200
+
+Set Due servo on pin 47 to 1800 us:
+DP 47 1800
+
+Set a Due servo by index:
+DS 2 1600
+
+Due servo index list:
+DS 0 = pin 39
+DS 1 = pin 41
+DS 2 = pin 43
+DS 3 = pin 45
+DS 4 = pin 47
+DS 5 = pin 49
+DS 6 = pin 51
+
+Typical servo values:
+1000 = one end
+1500 = center
+2000 = other end
+
+------------------------------------------------------------
+Due DC motor commands
+------------------------------------------------------------
+
+Stop Due DC motor:
+M 0
+
+Run Due DC motor slowly one direction:
+M 60
+
+Run Due DC motor medium one direction:
+M 120
+
+Run Due DC motor full power one direction:
+M 255
+
+Run Due DC motor slowly opposite direction:
+M -60
+
+Run Due DC motor medium opposite direction:
+M -120
+
+Run Due DC motor full power opposite direction:
+M -255
+
+Due DC motor range:
+-255 to +255
+0 = stopped
+
+------------------------------------------------------------
+Nano servo commands over LoRa
+------------------------------------------------------------
+
+Set Nano servo command 1 to center:
+NS 1 0
+
+Set Nano servo command 2 to center:
+NS 2 0
+
+Set Nano servo command 3 to center:
+NS 3 0
+
+Set Nano servo command 4 to center:
+NS 4 0
+
+Move Nano servo command 1 slightly one way:
+NS 1 25
+
+Move Nano servo command 1 slightly the other way:
+NS 1 -25
+
+Move Nano servo command 2 slightly one way:
+NS 2 40
+
+Move Nano servo command 2 slightly the other way:
+NS 2 -40
+
+Nano servo command range:
+-127 to +127
+0 = center
+-127 = one end
++127 = other end
+
+Use small steps first:
+NS 1 10
+NS 1 20
+NS 1 30
+
+------------------------------------------------------------
+Nano ESC commands over LoRa
+------------------------------------------------------------
+
+Stop Nano ESC 1:
+E 1 0
+
+Stop Nano ESC 2:
+E 2 0
+
+Set Nano ESC 1 to very low power:
+E 1 10
+
+Set Nano ESC 2 to very low power:
+E 2 10
+
+Set Nano ESC 1 to low power:
+E 1 25
+
+Set Nano ESC 2 to low power:
+E 2 25
+
+Set Nano ESC 1 to medium power:
+E 1 100
+
+Set Nano ESC 2 to medium power:
+E 2 100
+
+Set both ESCs back to zero:
+E 1 0
+E 2 0
+
+Nano ESC range:
+0 to 255
+0 = stopped
+255 = full command
+
+------------------------------------------------------------
+Useful general commands
+------------------------------------------------------------
+
+Print current output values:
+P
+
+Center all servos and stop all motors:
+CENTER
+
+Failsafe-style stop:
+SAFE
+
+Print the help menu again:
+HELP
+
+------------------------------------------------------------
+Example testing sequence
+------------------------------------------------------------
+
+CENTER
+P
+
+DP 43 1500
+DP 45 1500
+DP 47 1500
+
+DP 43 1600
+DP 43 1500
+DP 43 1400
+DP 43 1500
+
+NS 1 0
+NS 1 25
+NS 1 0
+NS 1 -25
+NS 1 0
+
+M 0
+M 60
+M 0
+M -60
+M 0
+
+E 1 0
+E 1 10
+E 1 0
+
+SAFE
