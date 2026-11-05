@@ -1,0 +1,32 @@
+Project Morpheus - Final V1 airplane mode, 6-byte LoRa packet
+Compile-integrity repair
+
+Repairs made only to compile/source integrity:
+1. Restored missing /* opening comment markers in:
+   - CommandDemo.ino
+   - EncoderAs5600.ino
+   - ImuMpu6050.ino
+   - LoggingDebug.ino
+   - MotorDriver.ino
+   - RcReceiver.ino
+2. Restored void readRc2(); in FunctionPrototypes.h.
+3. Restored the complete #ifndef/#define/#endif include guard in TypesAndGlobals.h.
+4. Restored #include <Adafruit_MPU6050.h> in the main tab so Adafruit_MPU6050 and MPU6050_* symbols are declared.
+5. Renamed the files to their actual Arduino tab names (removed upload suffixes such as (4), (7)).
+
+Not changed:
+- 6-byte LoRa packet layout
+- LoRa frequency, power, spreading factor, bandwidth, coding rate, CRC or async TX behaviour
+- RC mapping
+- servo endpoints/tuning
+- motor mixing/tuning
+- failsafe behaviour
+- OpenLog settings
+
+Packet remains:
+0 left flaperon signed byte
+1 right flaperon signed byte
+2 left motor 0..255
+3 right motor 0..255
+4 special/status byte
+5 XOR checksum of bytes 0..4

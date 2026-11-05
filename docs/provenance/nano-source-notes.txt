@@ -1,0 +1,45 @@
+Project Morpheus Nano receiver - compact 6-byte packet
+
+This version is built directly from the exact Nano files supplied on 29 Aug 2026.
+
+Functional changes are restricted to the packet:
+- 18 bytes -> 6 bytes
+- byte 0: D4 flapperon command
+- byte 1: D6 flapperon command
+- byte 2: D8 ESC command
+- byte 3: D7 ESC command
+- byte 4: special/arbitrary byte
+- byte 5: XOR checksum of bytes 0..4
+
+Preserved exactly:
+- LoRaSetup.ino
+- Outputs.ino
+- DebugPrint.ino
+- FunctionPrototypes.h
+- LoRa radio settings
+- pin assignments
+- servo/ESC mapping logic
+- servo and ESC endpoint logic
+- 500 ms failsafe
+- serial debug behavior
+
+D3 and D5:
+The old Due packet transmitted signed values 3 and 4 as zero.
+Those two bytes are now removed. PacketReceiver.ino sets signedValues[2] and
+signedValues[3] to zero locally, so the unchanged Outputs.ino still commands
+D3 and D5 to center.
+
+Upload this Nano code together with a Due transmitter using the matching
+6-byte packet layout.
+
+Servo center correction
+-----------------------
+The original Outputs.ino mapped signed values directly from MIN to MAX and
+therefore ignored servoCenterUs[] during normal received commands.
+
+Outputs.ino is corrected so:
+-127 = servoMinUs[]
+   0 = servoCenterUs[]
++127 = servoMaxUs[]
+
+Failsafe behavior is unchanged.

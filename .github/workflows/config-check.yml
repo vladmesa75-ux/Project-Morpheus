@@ -1,0 +1,11 @@
+name: Configuration consistency
+on:
+  push:
+  pull_request:
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Due and Nano LoRa compatibility
+        run: python3 tools/check_config.py
