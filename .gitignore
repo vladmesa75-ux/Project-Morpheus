@@ -1,0 +1,13 @@
+# Arduino local build artifacts and editor settings
+build/
+*.elf
+*.hex
+*.bin
+*.map
+*.o
+*.d
+*.tmp
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
