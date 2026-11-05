@@ -39,7 +39,7 @@ def main():
             errors.append(f"{left} differs: Due={a}, Nano={b}")
     if "LoRa.enableCrc();" not in (ROOT / "firmware/airplane-mode/DueFlightComputerBase_v2/LoraTelemetry.ino").read_text():
         errors.append("Due hardware LoRa CRC is not enabled")
-    if setting(nano,"USE_LORA_CRC") != 1:
+    if not re.search(r"^\\s*const\\s+bool\\s+USE_LORA_CRC\\s*=\\s*true\\s*;", nano, re.MULTILINE):
         errors.append("Nano USE_LORA_CRC is disabled")
     if setting(due, "LORA_PACKET_BYTES") != 6:
         errors.append("Packet layout changed: update both endpoints and protocol documentation")
