@@ -18,6 +18,7 @@ Experimental VTOL aircraft firmware and technical notes.
 | [Debugging guide](docs/debugging.md) | Safe, incremental fault isolation |
 | [Planned features](docs/roadmap.md) | Helicopter mode, transitions, and tail-fold design |
 | [Experimental sketches](experiments/) | Separate sandbox for tests, not flight-ready firmware |
+| [Flight replay app](apps/flight-replay/) | Original browser-based 3D flight log replay and analysis app |
 | [Configuration consistency check](tools/check_config.py) | Static Due/Nano consistency checks |
 
 ## Opening in Arduino IDE
