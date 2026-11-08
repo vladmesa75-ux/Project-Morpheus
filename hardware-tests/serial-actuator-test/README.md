@@ -63,6 +63,15 @@ The current Nano LoRa receiver uses a **6-byte** packet. It receives only signed
 - `E 1` → Nano D8; `E 2` → Nano D7.
 - The test sends commands at approximately 50 Hz with the same SX1278 configuration as the current airplane-mode transmitter. Nano LoRa receiver firmware must be installed and powered for Nano commands to work.
 
+
+Before testing after any firmware updates, compare the local test snapshot with the airplane-mode support tabs:
+
+```bash
+python tools/check_hardware_test_snapshot.py
+```
+
+This reports changed copies; it **does not automatically overwrite** deliberately different test configurations.
+
 ## Critical safety limitations
 
 **This is a manual test and has no automatic serial-command-loss timeout.** A motor/ESC command will remain active until another Serial command is processed, another safety system intervenes, or power is removed. Simply disconnecting the USB cable **does not guarantee a stop**. Keep an independent physical power cutoff within reach.
