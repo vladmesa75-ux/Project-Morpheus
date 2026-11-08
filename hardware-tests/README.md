@@ -7,7 +7,7 @@ This folder is for **bench testing the actual aircraft electronics and actuators
 | Test | Arduino board | Purpose |
 | --- | --- | --- |
 | [Serial actuator test](serial-actuator-test/) | Arduino Due | Move Due servos, command the local DC motor, and send Nano flaperon/ESC commands using the USB Serial Monitor |
-| [Emergency DC motor stop](emergency-motor-stop/) | Arduino Due | Minimal stand-alone sketch continuously setting both H-bridge inputs (pins 4 and 5) to zero |
+
 
 The serial actuator test was recovered from the original `DueFlightComputerBase_v2_serial_actuator_test.ino` and packaged with copies of the relevant current airplane-mode support tabs. **The original test main tab was preserved, including historical help text and limitations.** See the detailed README before using it.
 
