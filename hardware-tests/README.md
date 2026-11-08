@@ -20,6 +20,15 @@ The serial actuator test was recovered from the original `DueFlightComputerBase_
 5. Do not assume a generic 1500 µs servo pulse is safe for locking, folding or releasing mechanisms.
 6. Test the emergency-stop program with propulsion power **physically disconnected** before relying on it. Flashing another sketch is not an emergency stop for a moving aircraft.
 
+
+Before testing after any firmware updates, compare the local test snapshot with the airplane-mode support tabs:
+
+```bash
+python tools/check_hardware_test_snapshot.py
+```
+
+This reports changed copies; it **does not automatically overwrite** deliberately different test configurations.
+
 ## Development rules
 
 - Never overwrite the aircraft's main `firmware/airplane-mode/` sources to run a bench test.
