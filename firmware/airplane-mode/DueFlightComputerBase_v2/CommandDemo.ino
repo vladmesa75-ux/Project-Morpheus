@@ -5,6 +5,7 @@
 
   Main-board outputs:
   - Pin 39: tail unlocking servo, controlled by CH6.
+  - Pin 43: H-tail folding servo, always unfolded at 2200 us in airplane mode.
   - Pin 41: not attached or driven by the Arduino Servo library.
   - Pin 45: existing two-position servo, also controlled by CH6.
   - Elevator: not controlled by the Arduino.
@@ -27,6 +28,7 @@ void initializeFlightCommand() {
   // Use the correct safe values for the active CH6 servos.
   command.servoUs[TAIL_UNLOCK_SERVO_INDEX] = TAIL_UNLOCK_FAILSAFE_US;
   command.servoUs[CH6_SERVO_INDEX] = CH6_SERVO_FAILSAFE_US;
+  command.servoUs[HTAIL_FOLD_SERVO_INDEX] = HTAIL_UNFOLDED_US;
 
   command.motorPower = 0;
 
@@ -90,10 +92,14 @@ void userFlightLogic() {
     ? CH6_SERVO_POSITION_2_US
     : CH6_SERVO_POSITION_1_US;
 
-  // Keep every other unused Due servo centered.
+  // Keep the H-tail unfolded throughout airplane operation.
+  command.servoUs[HTAIL_FOLD_SERVO_INDEX] = HTAIL_UNFOLDED_US;
+
+  // Keep genuinely unused Due servos centered.
   for (uint8_t i = 0; i < SERVO_COUNT; i++) {
     if (i != TAIL_UNLOCK_SERVO_INDEX &&
-        i != CH6_SERVO_INDEX) {
+        i != CH6_SERVO_INDEX &&
+        i != HTAIL_FOLD_SERVO_INDEX) {
       command.servoUs[i] = SERVO_CENTER_US;
     }
   }
@@ -175,6 +181,7 @@ void applyReceiverFailsafe() {
   // Apply the correct safe values for the two active CH6 servos.
   command.servoUs[TAIL_UNLOCK_SERVO_INDEX] = TAIL_UNLOCK_FAILSAFE_US;
   command.servoUs[CH6_SERVO_INDEX] = CH6_SERVO_FAILSAFE_US;
+  command.servoUs[HTAIL_FOLD_SERVO_INDEX] = HTAIL_AIRPLANE_FAILSAFE_US;
 
   command.motorPower = 0;
 

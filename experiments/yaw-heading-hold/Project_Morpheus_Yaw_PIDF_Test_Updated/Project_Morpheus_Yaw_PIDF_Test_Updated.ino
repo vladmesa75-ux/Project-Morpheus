@@ -52,6 +52,14 @@ const uint8_t MPU6050_ADDRESS = 0x68;
 const uint8_t AS5600_ADDRESS = 0x36;
 const uint8_t AS5600_RAW_ANGLE_HIGH_REGISTER = 0x0C;
 
+// Wide servo pulse limits for this standalone test.
+const uint16_t SERVO_MIN_US = 500;
+const uint16_t SERVO_MAX_US = 2500;
+
+// H-tail must remain folded throughout helicopter/rotor testing.
+const uint8_t HTAIL_FOLD_SERVO_PIN = 43;
+const uint16_t HTAIL_FOLDED_US = 1000;
+
 const uint8_t WING_UNLOCK_SERVO_PIN = 45;
 // Calibrated physical positions for the wing lock servo on pin 45.
 const int16_t WING_LOCK_OPEN_US = 850;          // Fully open for rotor testing.
@@ -115,6 +123,7 @@ int8_t encoderDirection = 1;
 
 Adafruit_MPU6050 mpu;
 Servo wingUnlockServo;
+Servo hTailFoldServo;
 int16_t wingLockCommandUs = WING_LOCK_OPEN_US;
 
 bool imuOk = false;
@@ -184,7 +193,10 @@ void setup() {
 
   // Keep the original bench-test behavior: start with wing lock fully open.
   // All PIDF gains still start at zero, so the axle motor stays stopped.
-  wingUnlockServo.attach(WING_UNLOCK_SERVO_PIN);
+  hTailFoldServo.attach(HTAIL_FOLD_SERVO_PIN, SERVO_MIN_US, SERVO_MAX_US);
+  hTailFoldServo.writeMicroseconds(HTAIL_FOLDED_US);
+
+  wingUnlockServo.attach(WING_UNLOCK_SERVO_PIN, SERVO_MIN_US, SERVO_MAX_US);
   wingUnlockServo.writeMicroseconds(wingLockCommandUs);
 
   Wire.begin();

@@ -13,7 +13,7 @@ The imported firmware already uses one `Config.h` per controller. Keep configura
 | Setting | Due | Nano |
 | --- | --- | --- |
 | Arduino pin assignments | `MOTOR_PIN_*`, `SERVO_PINS`, `RC_PINS`, `LORA_*_PIN` | `SERVO_PINS`, `ESC_PINS`, `LORA_*_PIN` |
-| Servo endpoints and centers | `SERVO_MIN_US`, `SERVO_CENTER_US`, `SERVO_MAX_US`; individual pin 39 and 45 position settings | `servoMinUs[]`, `servoCenterUs[]`, `servoMaxUs[]` |
+| Servo endpoints and centers | `SERVO_MIN_US`/`SERVO_MAX_US` limits (500/2500 µs), `SERVO_CENTER_US`; fixed H-tail pin 43 at 2200 µs unfolded and existing pin 39/45 settings | `SERVO_MIN_US`/`SERVO_MAX_US` limits (500/2500 µs); per-servo `servoMinUs[]`, `servoCenterUs[]`, `servoMaxUs[]` calibrations unchanged |
 | ESCs / motor output | `MOTOR_*`, throttle RC mapping, differential thrust gains, motor scale/trim | `escMinUs[]`, `escMaxUs[]`, `UNSIGNED_INPUT_MAX` |
 | RC channels and switch thresholds | `RC_PINS`, `RC_*_US`, `CH6_POSITION_2_MIN_US`, CH5 thresholds | Not read directly by Nano |
 | IMU / filter | `MPU6050_ADDRESS`, calibration, deadband, attitude alpha, I2C speed | No IMU in this sketch |
@@ -35,7 +35,8 @@ The imported firmware already uses one `Config.h` per controller. Keep configura
 
 ## Current important exceptions
 
-- **New H-tail folding servo:** physical Due pin **43**. The imported Due firmware already *attaches* servo output 43 (`SERVO_PINS[1]`) but currently drives it to generic center. There is no fold/unfold command, endpoint tuning or verified failsafe yet. **Do not connect/operate the new folding mechanism using this unmodified code without checking mechanical clearance.** Implement separately after we decide the control source, direction, travel limits, timing/interlocks, and safe state.
+- **H-tail folding servo:** physical Due pin **43** (`SERVO_PINS[1]`), commanded **2200 µs unfolded** for airplane startup, normal operation and RC failsafe. The five tracked helicopter/rotor tests separately command **1000 µs folded** on pin 43. No automated mode transition or fold-completion interlock is implemented. Verify geometry, pulse direction, end stops and clearance before powered testing.
+- **Servo pulse limits:** Due and Nano servo outputs allow **500–2500 µs**. Existing per-servo Nano flaperon endpoint/center calibrations and ESC pulse ranges remain unchanged; a wider hard limit does not increase normal travel by itself.
 - **Elevator:** direct RC control in the supplied design; physical pin 41 is intentionally *not* attached by the Due sketch.
 - **Nano flaperon centers:** D4 = 1430 us and D6 = 1470 us in the supplied firmware. Its piecewise mapping gives each center independent meaning.
 - **ESC input scaling:** Due can produce up to 255, while Nano's `UNSIGNED_INPUT_MAX` is 254. The Nano constrains larger values; do not alter this during import without a deliberate bench check.

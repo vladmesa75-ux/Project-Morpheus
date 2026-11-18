@@ -125,6 +125,12 @@ const uint8_t SERVO_SIGNED_VALUE_INDEX[SERVO_COUNT] = {
   1   // D6 uses signed packet byte 1, the second flapperon value
 };
 
+// -------------------- Servo pulse boundaries --------------------
+// These are allowed output limits, not the individual servo calibrations.
+// Keep the tuned flaperon center/endpoints below unless intentionally recalibrating.
+const uint16_t SERVO_MIN_US = 500;
+const uint16_t SERVO_MAX_US = 2500;
+
 // -------------------- Servo endpoints --------------------
 //
 // Each servo maps a signed input from -127...+127 to a PWM output.

@@ -41,9 +41,10 @@ void setup() {
 
   // Start outputs in a safe state.
   setupMotor();
-  setupServos();
-  centerAllServos();
+  // Initialize mode-specific positions before enabling servo signals.
   initializeFlightCommand();
+  setupServos();
+  applyFlightCommand();
 
   // Start receiver interrupt reading.
   setupRcInputs();

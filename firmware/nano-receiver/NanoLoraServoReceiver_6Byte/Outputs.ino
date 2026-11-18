@@ -13,7 +13,7 @@ void setupOutputs() {
   // servo 3 = D6, flapperon
 
   for (uint8_t i = 0; i < SERVO_COUNT; i++) {
-    servos[i].attach(SERVO_PINS[i]);
+    servos[i].attach(SERVO_PINS[i], SERVO_MIN_US, SERVO_MAX_US);
   }
 
   // Attach both ESC outputs.
@@ -117,10 +117,10 @@ void applyOutputs() {
   for (uint8_t i = 0; i < SERVO_COUNT; i++) {
     uint8_t packetValueIndex = SERVO_SIGNED_VALUE_INDEX[i];
 
-    servoOutputUs[i] = mapSignedToServoUs(
+    servoOutputUs[i] = constrain(mapSignedToServoUs(
       signedValues[packetValueIndex],
       i
-    );
+    ), SERVO_MIN_US, SERVO_MAX_US);
 
     servos[i].writeMicroseconds(servoOutputUs[i]);
   }

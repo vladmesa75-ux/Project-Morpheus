@@ -9,7 +9,7 @@ The source files, not the drawing, are the authority for **what the imported fir
 | RC CH1 roll, CH2 pitch, CH3 throttle, CH4 yaw | 48, 46, 44, 42 | RC pulse inputs |
 | RC CH5 flap, CH6 switch | 40, 38 | RC pulse inputs |
 | Tail unlocking servo | 39 | Two configured positions driven by CH6 |
-| New H-tail folding servo | 43 | **Planned feature**; pin already attached in imported code, currently centered |
+| H-tail folding servo | 43 | Fixed **2200 µs unfolded** in airplane mode, including startup and RC failsafe |
 | Existing CH6 servo | 45 | Two configured positions driven by CH6 |
 | Other servo outputs | 47, 49, 51 | Attached, currently centered |
 | Elevator | 41 | **Direct RC**, not driven by Due Servo library |
@@ -19,7 +19,7 @@ The source files, not the drawing, are the authority for **what the imported fir
 | AS5600 | Wire1 (I2C1) | 0x36, default 400 kHz |
 | OpenLog | Serial2 | 115200 baud |
 
-Due servo output list is `{39,43,45,47,49,51}`, six total. The imported `Servos.ino` still has an outdated comment claiming seven servos; the array in `Config.h` is authoritative.
+Due servo output list is `{39,43,45,47,49,51}`, six total. The array in `Config.h` is authoritative.
 
 ## Arduino Nano receiver
 
@@ -40,5 +40,6 @@ Due servo output list is `{39,43,45,47,49,51}`, six total. The imported `Servos.
 
 - Servo rail power and grounds are not specified in the uploaded firmware. Do not source motor/servo currents from MCU pins.
 - Confirm which onboard servo uses pins 47, 49 and 51; the imported airplane mixer holds them at center.
-- Check pin 43's existing center pulse against the new tail-fold geometry before attaching the servo horn.
+- Pin 43 now commands 2200 µs unfolded (airplane) or 1000 µs folded (helicopter tests). Check that both positions clear the mechanics before attaching the servo horn; software does not verify physical completion.
+- The allowed servo signal range is 500–2500 µs on both boards, but existing per-servo calibrations and ESC ranges have not been widened.
 - Confirm receiver CH numbering with the actual transmitter mapping, and check reverse throttle (2000 us off, 1000 us full on the Due).

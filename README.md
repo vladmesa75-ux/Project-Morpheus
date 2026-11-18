@@ -4,7 +4,7 @@ Experimental VTOL aircraft firmware and technical notes.
 
 ## Repository status
 
-**Imported baseline (5 November 2026).** The Arduino Due airplane-mode and Arduino Nano LoRa receiver firmware were imported from the files supplied for this project. The source code was not behaviorally changed as part of the initial repository organization. This is a **supplied / previously used baseline, not a freshly hardware-validated release**. The new H-tail fold servo on Due pin 43 is **not yet implemented**.
+**Imported baseline (5 November 2026).** The Arduino Due airplane-mode and Arduino Nano LoRa receiver firmware were imported from project files. The original import did not change flight behavior. **Servo update (18 November 2026):** Due pin 43 is fixed at **2200 µs (unfolded)** in airplane mode, including failsafe; all five helicopter/rotor tests command **1000 µs (folded)** on pin 43. Allowed servo pulse bounds are **500–2500 µs** on both boards without changing existing flaperon calibrations or ESC endpoints. This remains **unverified on hardware**.
 
 ### Start here
 

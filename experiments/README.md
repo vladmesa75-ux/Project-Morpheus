@@ -2,7 +2,7 @@
 
 This directory is for **standalone experiments and archived development variants**, not production flight firmware. The current airplane-mode programs remain untouched in `firmware/`.
 
-Each imported Arduino sketch is in its own directory with the same name as its main `.ino` file, so the Arduino IDE can open it directly. **Test sketches retain their original configuration constants.** Editing the main airplane-mode `Config.h` does **not** automatically update these experiments.
+Each imported Arduino sketch is in its own directory with the same name as its main `.ino` file, so the Arduino IDE can open it directly. **The five helicopter/rotor tests were intentionally updated on 18 November 2026:** pin 43 is held at 1000 µs folded, and their servo pulse bounds are 500–2500 µs. Their other original configuration constants remain unchanged. Editing the main airplane-mode `Config.h` does **not** automatically update these experiments.
 
 ## Original source recovered and committed
 
@@ -14,7 +14,7 @@ Each imported Arduino sketch is in its own directory with the same name as its m
 | Manual helicopter collective/RPM feedforward | [V2](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V2/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V2.ino) | **Legacy 18-byte LoRa packet; incompatible with current Nano** |
 | Manual helicopter collective/RPM feedforward | [V3](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte.ino) | **6-byte LoRa format matches the current Nano packet layout**; wing unlock remains 850 µs |
 
-These are source-preservation imports, **not newly compiled or hardware-tested releases**. In particular, the wing-lock pulse used in the experiments differs from the airplane-mode CH6 servo settings and from the general 1000 µs minimum; review mechanical clearance before running them.
+These began as source-preservation imports, and the 18 November servo changes are not yet compiled or hardware-tested. In particular, the wing-lock pulse in these experiments remains **850 µs**, different from airplane-mode CH6 settings; review mechanical clearance before running them. Fixed H-tail servo commands do not confirm that folding has physically completed.
 
 ## Other experiment versions located but not yet importable
 
@@ -39,6 +39,6 @@ Also found but not yet readable: `Project_Morpheus_Yaw_PIDF_Test(1).ino` (duplic
 3. If a sketch transmits LoRa, confirm its packet size **and byte interpretation** against the installed Nano firmware. Legacy 18-byte code cannot communicate correctly with the current 6-byte receiver.
 4. Check failsafes, motor startup state, and whether a wing-lock command is issued immediately at boot. Do not energize propulsion with propellers installed during initial checks.
 5. Treat any `No_Failsafes` experiment as a historical unsafe test and do not run it on the aircraft without deliberately adding appropriate protections.
-6. Make new experiments in a separate folder with independent local `Config.h` and a README. Do not overwrite the recovered originals.
+6. Make new experiments in a separate folder with independent local `Config.h` and a README. Apart from this explicitly requested 18 November servo update, preserve recovered originals and document intentional changes.
 
 See the [debugging guide](../docs/debugging.md) for repeatable testing.

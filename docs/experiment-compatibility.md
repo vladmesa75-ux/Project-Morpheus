@@ -1,13 +1,13 @@
 # Experimental sketch compatibility audit
 
-**Reviewed 5 November 2026.** The reference configuration is the supplied airplane-mode Arduino Due `Config.h` and six-byte Nano LoRa receiver `Config.h`. Findings are from static source review, **not** a fresh compile, hardware verification or flight test. Historical sketches are archived without modifying their behavior.
+**Initially reviewed 5 November 2026; folding-servo update documented 18 November 2026.** The reference configuration is the supplied airplane-mode Arduino Due `Config.h` and six-byte Nano LoRa receiver `Config.h`. Findings are from static source review, **not** a fresh compile, hardware verification or flight test. Historical sketches are archived without modifying their behavior.
 
 ## Current configuration reference
 
 - **Due inputs:** RC channels 1–6 on pins **48, 46, 44, 42, 40, 38**.
 - **Due motor driver:** bidirectional H-bridge PWM input pins **4 and 5** (not one PWM plus a digital direction pin).
 - **Due sensors:** MPU6050 on `Wire` at `0x68`, AS5600 on `Wire1` at `0x36`; both I2C buses at 400 kHz.
-- **Due servo outputs:** 39, **43**, 45, 47, 49, 51. Airplane-mode CH6 controls pin **45** using **1300 and 1950 µs**. The new H-tail folding servo uses **pin 43**, but folding control is **not yet implemented**.
+- **Due servo outputs:** 39, **43**, 45, 47, 49, 51. Airplane-mode CH6 controls pin **45** using **1300 and 1950 µs**. The H-tail folding servo uses **pin 43**: **2200 µs unfolded** in airplane mode and its RC failsafe; **1000 µs folded** in all five tracked helicopter/rotor test sketches.
 - **Nano radio protocol:** 6-byte packet: signed left/right flaperons in bytes 0/1; unsigned two ESC throttle commands in bytes 2/3; byte 4 status; byte 5 XOR checksum. 433 MHz, SF7, 500 kHz bandwidth, code rate 4/5, LoRa hardware CRC enabled.
 - **Encoder gearing:** 1.34375 encoder revolutions per real wing revolution; tests that measure actual wing RPM should apply this ratio.
 
@@ -21,9 +21,9 @@
 | Helicopter manual V2 | Same RC and servo pins as V1 | **Mismatch — 18 bytes** | Keep as historical code; not compatible with the current Nano |
 | Helicopter manual V3 6-byte | Same RC/sensor/pin reference; 1.34375:1 encoder gearing | **Matches 6-byte layout, packet XOR, hardware CRC and radio settings** | Verify 850 µs servo motion. Byte 4 uses `0` for normal and `255` for failsafe, whereas airplane mode normally uses CH5 position; Nano does not act on byte 4 |
 
-**Critical difference:** The older experiments explicitly command the wing-lock servo on pin **45** to **850 µs**, outside the main Due sketch's generic **1000 µs** lower servo bound. This may have been appropriate for the older mechanical setup but must not be assumed safe for the present mechanism.
+**Critical difference:** The older experiments explicitly command the wing-lock servo on pin **45** to **850 µs**. Although the main Due's generic output range now permits 500–2500 µs, the **850 µs wing-lock position is different from the airplane-mode positions and still requires mechanical verification**.
 
-The added H-tail fold servo on pin **43** is not actuated by the imported experiments. The required fold positions, power-up state, failsafe behavior and interlock remain to be designed and checked.
+**18 November 2026 change:** The three helicopter-manual and two yaw-heading-hold experiments were deliberately updated to command pin **43** to **1000 µs folded at startup**, and the Due/Nano allowed servo limits are now **500–2500 µs**. Existing wing-lock servo pulses, LoRa packet formats and motor-control logic were not changed. There is no position feedback, fold-completion sensor, or mechanical transition interlock; verify that the tail finishes folding before enabling propulsion. The archived serial-actuator test is unchanged and still uses the older firmware layout.
 
 ## Additional original code located; full-file import still pending
 

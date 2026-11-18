@@ -103,6 +103,14 @@ const int8_t LEFT_FLAPERON_DIRECTION  = 1;
 const int8_t RIGHT_FLAPERON_DIRECTION = -1;
 
 // Wing unlock servo, same value used in the previous rotor tests.
+// Wide servo pulse limits for this standalone test.
+const uint16_t SERVO_MIN_US = 500;
+const uint16_t SERVO_MAX_US = 2500;
+
+// H-tail must remain folded throughout helicopter/rotor testing.
+const uint8_t HTAIL_FOLD_SERVO_PIN = 43;
+const uint16_t HTAIL_FOLDED_US = 1000;
+
 const uint8_t WING_UNLOCK_SERVO_PIN = 45;
 const uint16_t WING_UNLOCK_SERVO_US = 850;
 
@@ -186,6 +194,7 @@ bool rcFresh = false;
 // ============================================================
 
 Servo wingUnlockServo;
+Servo hTailFoldServo;
 
 bool armed = false;
 uint32_t throttleLowStartUs = 0;
@@ -294,7 +303,10 @@ void setup() {
   // ----------------------------------------------------------
   // Unlock the rotating wing.
   // ----------------------------------------------------------
-  wingUnlockServo.attach(WING_UNLOCK_SERVO_PIN);
+  hTailFoldServo.attach(HTAIL_FOLD_SERVO_PIN, SERVO_MIN_US, SERVO_MAX_US);
+  hTailFoldServo.writeMicroseconds(HTAIL_FOLDED_US);
+
+  wingUnlockServo.attach(WING_UNLOCK_SERVO_PIN, SERVO_MIN_US, SERVO_MAX_US);
   wingUnlockServo.writeMicroseconds(WING_UNLOCK_SERVO_US);
 
   // ----------------------------------------------------------

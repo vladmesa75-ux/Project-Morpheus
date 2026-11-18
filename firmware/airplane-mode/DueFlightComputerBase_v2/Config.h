@@ -105,9 +105,10 @@ const int16_t MOTOR_DEADBAND = 4;
 const uint8_t SERVO_COUNT = 6;
 const uint8_t SERVO_PINS[SERVO_COUNT] = {39, 43, 45, 47, 49, 51};
 
-const uint16_t SERVO_MIN_US = 1000;
+// Allowed output pulse limits for every Due servo (not travel calibrations).
+const uint16_t SERVO_MIN_US = 500;
 const uint16_t SERVO_CENTER_US = 1500;
-const uint16_t SERVO_MAX_US = 2000;
+const uint16_t SERVO_MAX_US = 2500;
 
 // ------------------------------------------------------------
 // RC receiver pins
@@ -175,6 +176,17 @@ const int8_t YAW_INPUT_DIRECTION   = 1;
 
 // Small deadband around stick center, expressed in signed-byte units.
 const int16_t CONTROL_DEADBAND_BYTE = 1;
+
+// ------------------------------------------------------------
+// H-tail folding servo on pin 43
+// ------------------------------------------------------------
+
+// Airplane-mode firmware always holds the H-tail unfolded, including RC failsafe.
+// Helicopter test sketches independently command the folded position.
+const uint8_t HTAIL_FOLD_SERVO_INDEX = 1;  // SERVO_PINS[1] = pin 43.
+const int16_t HTAIL_FOLDED_US = 1000;
+const int16_t HTAIL_UNFOLDED_US = 2200;
+const int16_t HTAIL_AIRPLANE_FAILSAFE_US = HTAIL_UNFOLDED_US;
 
 // ------------------------------------------------------------
 // Tail unlocking servo on pin 39

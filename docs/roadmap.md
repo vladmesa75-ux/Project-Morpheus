@@ -10,7 +10,7 @@ This file records **planned work**; nothing here implies that flight code alread
 
 ## Next controlled changes
 
-1. **H-tail 90-degree fold:** add explicit control of the newly installed servo on **Due pin 43** (already attached/centered in imported firmware). Define pulse endpoints and mechanical safe state, choose mode/RC control, and add an interlock so the tail cannot inadvertently fold in airplane flight. Verify its power-up, packet-loss, RC-loss and mode-transition behavior. **Not implemented in initial import.**
+1. **H-tail 90-degree fold:** fixed **2200 µs unfolded** in airplane mode (including startup/RC failsafe), **1000 µs folded** in the five helicopter/rotor tests, implemented 18 November 2026. **Still required:** add verified fold-completion feedback or an interlock, design transition sequencing and validate mechanical end stops, travel duration, power-up and loss-of-signal behavior on hardware. Fixed positions alone do not implement transition control.
 2. **Complete output inventory:** identify the currently centered Due servos on 47/49/51, remove assumptions from stale source comments without changing logic.
 3. **Config cleanup:** retain per-device config ownership; consider named per-actuator settings rather than positional arrays; introduce reusable protocol definitions with regression tests when changing packet format.
 4. **Helicopter mode:** add separate mode-specific control functions and PID gains, telemetry and mode handling. Define commands and safe states before connecting them to outputs.
