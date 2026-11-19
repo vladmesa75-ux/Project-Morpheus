@@ -35,6 +35,7 @@ The imported firmware already uses one `Config.h` per controller. Keep configura
 
 ## Current important exceptions
 
+- **Tail unlocking servo (Due pin 39):** CH6 high (wing-lock servo on pin 45 at 1950 µs, locked) commands **1000 µs**; CH6 low/middle (wing lock at 1300 µs, partially unlocked) commands **1700 µs**. RC failsafe uses 1700 µs, matching the existing wing-lock failsafe state.
 - **H-tail folding servo:** physical Due pin **43** (`SERVO_PINS[1]`), commanded **2200 µs unfolded** for airplane startup, normal operation and RC failsafe. The five tracked helicopter/rotor tests separately command **1000 µs folded** on pin 43. No automated mode transition or fold-completion interlock is implemented. Verify geometry, pulse direction, end stops and clearance before powered testing.
 - **Servo pulse limits:** Due and Nano servo outputs allow **500–2500 µs**. Existing per-servo Nano flaperon endpoint/center calibrations and ESC pulse ranges remain unchanged; a wider hard limit does not increase normal travel by itself.
 - **Elevator:** direct RC control in the supplied design; physical pin 41 is intentionally *not* attached by the Due sketch.

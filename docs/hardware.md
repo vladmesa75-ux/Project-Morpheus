@@ -8,7 +8,7 @@ The source files, not the drawing, are the authority for **what the imported fir
 | --- | --- | --- |
 | RC CH1 roll, CH2 pitch, CH3 throttle, CH4 yaw | 48, 46, 44, 42 | RC pulse inputs |
 | RC CH5 flap, CH6 switch | 40, 38 | RC pulse inputs |
-| Tail unlocking servo | 39 | Two configured positions driven by CH6 |
+| Tail unlocking servo | 39 | CH6 low/middle: **1700 µs** (wing lock at 1300 µs); CH6 high: **1000 µs** (wing locked at 1950 µs). RC failsafe: 1700 µs |
 | H-tail folding servo | 43 | Fixed **2200 µs unfolded** in airplane mode, including startup and RC failsafe |
 | Existing CH6 servo | 45 | Two configured positions driven by CH6 |
 | Other servo outputs | 47, 49, 51 | Attached, currently centered |

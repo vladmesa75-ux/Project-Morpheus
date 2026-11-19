@@ -195,11 +195,11 @@ const int16_t HTAIL_AIRPLANE_FAILSAFE_US = HTAIL_UNFOLDED_US;
 // SERVO_PINS[0] is physical pin 39.
 const uint8_t TAIL_UNLOCK_SERVO_INDEX = 0;
 
-// Change these two values to set the two tail-lock positions.
-// CH6 low or middle -> position 1.
-// CH6 high          -> position 2.
-const int16_t TAIL_UNLOCK_POSITION_1_US = 1800;
-const int16_t TAIL_UNLOCK_POSITION_2_US = 1200;
+// Tail unlock follows the wing-lock state on pin 45.
+// CH6 low/middle: wing lock at 1300 us (partially unlocked) -> tail unlock at 1700 us.
+// CH6 high:       wing locked at 1950 us              -> tail unlock at 1000 us.
+const int16_t TAIL_UNLOCK_POSITION_1_US = 1700;
+const int16_t TAIL_UNLOCK_POSITION_2_US = 1000;
 
 // Position used if the receiver signal is lost.
 const int16_t TAIL_UNLOCK_FAILSAFE_US = TAIL_UNLOCK_POSITION_1_US;
