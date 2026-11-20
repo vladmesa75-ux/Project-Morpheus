@@ -280,7 +280,7 @@ void setup() {
   tailUnlockServo.attach(TAIL_UNLOCK_PIN, SERVO_MIN_US, SERVO_MAX_US);
   hTailFoldServo.attach(HTAIL_FOLD_PIN, SERVO_MIN_US, SERVO_MAX_US);
   wingUnlockServo.attach(WING_LOCK_PIN, SERVO_MIN_US, SERVO_MAX_US);
-  tailUnlockServo.writeMicroseconds(TAIL_UNLOCK_US);
+  tailUnlockServo.writeMicroseconds(TAIL_LOCKED_US);
   hTailFoldServo.writeMicroseconds(HTAIL_FOLDED_US);
   wingUnlockServo.writeMicroseconds(WING_UNLOCK_US);
   for (uint8_t i = 0; i < 3; i++) {
@@ -304,7 +304,7 @@ void setup() {
   }
 
   Serial.println("Morpheus helicopter motor balance: Due test ready");
-  Serial.println("Wing UNLOCK 850us; tail unlock 1700us; H-tail FOLD 1000us");
+  Serial.println("Wing UNLOCK 850us; tail LOCKED 1000us; H-tail FOLD 1000us");
   Serial.println("Wing orientation is mechanical: leave it in AIRPLANE orientation.");
   Serial.println("Remove propellers for first servo / ESC / failsafe checks.");
   printHelp();
