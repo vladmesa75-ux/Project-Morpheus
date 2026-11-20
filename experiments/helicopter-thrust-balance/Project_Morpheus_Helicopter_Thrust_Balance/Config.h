@@ -24,7 +24,9 @@ const uint8_t HTAIL_FOLD_PIN = 43;
 const uint8_t WING_LOCK_PIN = 45;
 const uint8_t OTHER_SERVO_PINS[] = {47, 49, 51};
 
-const uint16_t TAIL_UNLOCK_US = 1700;
+// Keep the tail locked in helicopter operation; unlock only for landing
+// in a separate landing-mode controller.
+const uint16_t TAIL_LOCKED_US = 1000;
 const uint16_t HTAIL_FOLDED_US = 1000;
 // Existing helicopter experiments use 850 us for fully open, not the
 // airplane-mode 1300 us partial-unlock position. Verify on the real mechanism.
