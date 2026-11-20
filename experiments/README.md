@@ -14,6 +14,10 @@ Each imported Arduino sketch is in its own directory with the same name as its m
 | Manual helicopter collective/RPM feedforward | [V2](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V2/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V2.ino) | **Legacy 18-byte LoRa packet; incompatible with current Nano** |
 | Manual helicopter collective/RPM feedforward | [V3](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte.ino) | **6-byte LoRa format matches the current Nano packet layout**; wing unlock remains 850 µs |
 
+## New calibration experiment
+
+- [Helicopter motor-thrust balance](helicopter-thrust-balance/README.md): **Due-only** 6-byte LoRa test with fixed helicopter servo positions, CH3 controlling both ESCs, and a live serial-adjustable left-minus-right motor-command offset. Uses the **existing Nano code unchanged**. The final trim value is not yet known; once measured, copy it into active **helicopter** mixers only. No airplane-mode firmware was modified.
+
 These began as source-preservation imports, and the 18 November servo changes are not yet compiled or hardware-tested. In particular, the wing-lock pulse in these experiments remains **850 µs**, different from airplane-mode CH6 settings; review mechanical clearance before running them. Fixed H-tail servo commands do not confirm that folding has physically completed.
 
 ## Other experiment versions located but not yet importable
