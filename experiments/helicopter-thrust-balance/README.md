@@ -10,7 +10,7 @@ This standalone calibration sketch sends **two independently adjustable motor co
 | --- | --- |
 | Wing orientation | **Physically leave the wing oriented as in airplane mode** (the code does not flip or position it) |
 | Due pin 45, wing lock | **850 µs, unlocked** (same as the existing helicopter V3 experiment; check physical travel) |
-| Due pin 39, tail unlock | **1700 µs, unlocked** |
+| Due pin 39, tail lock | **1000 µs, locked** throughout the test; unlock only in a separate landing mode |
 | Due pin 43, H-tail fold | **1000 µs, folded** (required for helicopter experiments) |
 | Due pins 47, 49, 51 | 1500 µs, same neutral as the airplane-mode mixer |
 | Nano D4 and D6, flaperons | Both at the currently calibrated **airplane neutral** (signed command 0) |
