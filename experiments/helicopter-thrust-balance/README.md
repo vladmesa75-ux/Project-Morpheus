@@ -9,7 +9,7 @@ This standalone calibration sketch sends **two independently adjustable motor co
 | Hardware | Command during test |
 | --- | --- |
 | Wing orientation | **Physically leave the wing oriented as in airplane mode** (the code does not flip or position it) |
-| Due pin 45, wing lock | **850 µs, unlocked** (same as the existing helicopter V3 experiment; check physical travel) |
+| Due pin 45, wing lock | **900 µs, unlocked** (same as the existing helicopter V3 experiment; check physical travel) |
 | Due pin 39, tail lock | **1000 µs, locked** throughout the test; unlock only in a separate landing mode |
 | Due pin 43, H-tail fold | **1000 µs, folded** (required for helicopter experiments) |
 | Due pins 47, 49, 51 | 1500 µs, same neutral as the airplane-mode mixer |
@@ -22,7 +22,7 @@ The Due transmits at up to 50 Hz using the same radio frequency, packet layout, 
 
 ## Calibration procedure
 
-1. **First test with both propellers removed.** Verify servo motion, especially full wing unlock at 850 µs and folding at 1000 µs. Neither mechanism has position feedback. Verify that Nano D8 and D7 respond to the expected motor bytes and that stopping CH3 or switching off the transmitter returns both ESCs to minimum. Do not let the unlocked wing move unexpectedly during these checks.
+1. **First test with both propellers removed.** Verify servo motion, especially full wing unlock at 900 µs and folding at 1000 µs. Neither mechanism has position feedback. Verify that Nano D8 and D7 respond to the expected motor bytes and that stopping CH3 or switching off the transmitter returns both ESCs to minimum. Do not let the unlocked wing move unexpectedly during these checks.
 2. With propulsion still disabled, arrange a **properly restrained test fixture** that permits observing any asymmetry without an uncontrolled wing spin, tip-over, or USB-cable entanglement. Verify clearance and the physical wing orientation.
 3. Connect **only the Due** to Serial Monitor: **115200 baud**, newline enabled. With the transmitter on and CH3 fully off, wait at least 3 seconds for the servo-position settling interlock. `armed:YES` appears once a fresh, off-position CH3 pulse has been seen; increase CH3 gradually.
 4. Observe the pull, then issue small steps such as `+1`, `+2`, `-1`, or an exact offset such as `SET 8`. **Positive trim increases the left (D8) command relative to the right (D7).** Use `STATUS` to see the commanded values and the *actual* difference.

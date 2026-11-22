@@ -15,13 +15,15 @@
 
 | Experiment | Hardware comparison | Radio protocol | Action before reuse |
 | --- | --- | --- | --- |
-| Yaw PIDF original | MPU6050, AS5600, DC motor 4/5, wing unlock servo 45 | Not applicable | **850 µs wing unlock at startup**, rather than airplane-mode CH6 endpoints; verify mechanics |
-| Yaw PIDF updated | Same pins and I2C; includes correct 1.34375:1 gearing and OPEN/PARTIAL/LOCK commands | Not applicable | Lock pulses **850 / 1300 / 1950 µs**; startup commands OPEN; motor disabled until unlocked. PIDF starts at zero |
-| Helicopter manual V1 | RC pitch 46 and throttle 44 match; unlock pin 45 at 850 µs | **Mismatch — 18 bytes** | Keep as historical code; not compatible with the current Nano |
+| Yaw PIDF original | MPU6050, AS5600, DC motor 4/5, wing unlock servo 45 | Not applicable | **900 µs wing unlock at startup**, rather than airplane-mode CH6 endpoints; verify mechanics |
+| Yaw PIDF updated | Same pins and I2C; includes correct 1.34375:1 gearing and OPEN/PARTIAL/LOCK commands | Not applicable | Lock pulses **900 / 1300 / 1950 µs**; startup commands OPEN; motor disabled until unlocked. PIDF starts at zero |
+| Helicopter manual V1 | RC pitch 46 and throttle 44 match; unlock pin 45 at 900 µs | **Mismatch — 18 bytes** | Keep as historical code; not compatible with the current Nano |
 | Helicopter manual V2 | Same RC and servo pins as V1 | **Mismatch — 18 bytes** | Keep as historical code; not compatible with the current Nano |
-| Helicopter manual V3 6-byte | Same RC/sensor/pin reference; 1.34375:1 encoder gearing | **Matches 6-byte layout, packet XOR, hardware CRC and radio settings** | Verify 850 µs servo motion. Byte 4 uses `0` for normal and `255` for failsafe, whereas airplane mode normally uses CH5 position; Nano does not act on byte 4 |
+| Helicopter manual V3 6-byte | Same RC/sensor/pin reference; 1.34375:1 encoder gearing | **Matches 6-byte layout, packet XOR, hardware CRC and radio settings** | Verify 900 µs servo motion. Byte 4 uses `0` for normal and `255` for failsafe, whereas airplane mode normally uses CH5 position; Nano does not act on byte 4 |
 
-**Critical difference:** The older experiments explicitly command the wing-lock servo on pin **45** to **850 µs**. Although the main Due's generic output range now permits 500–2500 µs, the **850 µs wing-lock position is different from the airplane-mode positions and still requires mechanical verification**.
+**Critical difference:** The older experiments explicitly command the wing-lock servo on pin **45** to **900 µs**. Although the main Due's generic output range now permits 500–2500 µs, the **900 µs wing-lock position is different from the airplane-mode positions and still requires mechanical verification**.
+
+**22 November 2026 calibration:** All wing-unlock/full-open commands in the tracked helicopter and yaw/rotor tests now use **900 µs** on pin 45. Historical sketches not present in this repository cannot be edited.
 
 **18 November 2026 change:** The three helicopter-manual and two yaw-heading-hold experiments were deliberately updated to command pin **43** to **1000 µs folded at startup**, and the Due/Nano allowed servo limits are now **500–2500 µs**. Existing wing-lock servo pulses, LoRa packet formats and motor-control logic were not changed. There is no position feedback, fold-completion sensor, or mechanical transition interlock; verify that the tail finishes folding before enabling propulsion. The archived serial-actuator test is unchanged and still uses the older firmware layout.
 
@@ -37,7 +39,7 @@ The following sketches were initially readable and inspected, but subsequent fil
 | `Project_Morpheus_Wing_RPM_PID_Unified_Failsafe_Toggle.ino` | **18-byte** LoRa protocol; review selectable failsafe behavior |
 | `Project_Morpheus_Wing_RPM_PID_No_Failsafes.ino` | **18-byte** LoRa protocol; **deliberately has no automatic failsafes** |
 | `Project_Morpheus_Local_DC_Motor_RPM_PID_Test.ino` | **Pin-mode mismatch:** assumes PWM pin 4 and direction pin 5, while current H-bridge needs two PWM inputs |
-| `Project_Morpheus_Local_DC_RPM_PID_SAFE_v2.ino` | Corrected two-PWM motor driver pins 4/5; wing unlock servo 45 at 850 µs |
+| `Project_Morpheus_Local_DC_RPM_PID_SAFE_v2.ino` | Corrected two-PWM motor driver pins 4/5; unavailable historical source, not updated for the current 900 µs wing-unlock calibration |
 | `Emergency_Local_DC_Motor_Stop.ino` | Drives motor pins 4 and 5 to zero; test-only emergency stop sketch |
 | `DueFlightComputerBase_v2_serial_actuator_test.ino` | Replacement main tab requiring the rest of the Due project; not independently compilable |
 

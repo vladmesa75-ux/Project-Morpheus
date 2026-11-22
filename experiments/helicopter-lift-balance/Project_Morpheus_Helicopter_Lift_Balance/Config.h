@@ -43,7 +43,7 @@ const uint16_t TAIL_LOCKED_US = 1000;
 const uint8_t HTAIL_FOLD_SERVO_PIN = 43;
 const uint16_t HTAIL_FOLDED_US = 1000;
 const uint8_t WING_UNLOCK_SERVO_PIN = 45;
-const uint16_t WING_UNLOCK_US = 850;
+const uint16_t WING_UNLOCK_US = 900;
 const uint8_t OTHER_SERVO_PINS[] = {47, 49, 51};
 const uint16_t OTHER_SERVO_CENTER_US = 1500;
 

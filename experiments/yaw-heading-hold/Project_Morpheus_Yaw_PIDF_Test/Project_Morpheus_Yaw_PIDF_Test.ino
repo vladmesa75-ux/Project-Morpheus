@@ -2,7 +2,7 @@
   Project Morpheus - yaw PIDF bench test
 
   Purpose:
-  - Immediately unlock the wing by commanding the servo on Due pin 45 to 850 us.
+  - Immediately unlock the wing by commanding the servo on Due pin 45 to 900 us.
   - Read fuselage yaw rate from the MPU-6050 and integrate it into a relative yaw angle.
   - Keep the relative yaw angle at 0 degrees with the bidirectional axle DC motor.
   - Measure wing/shaft rpm with the AS5600 encoder.
@@ -58,7 +58,7 @@ const uint8_t HTAIL_FOLD_SERVO_PIN = 43;
 const uint16_t HTAIL_FOLDED_US = 1000;
 
 const uint8_t WING_UNLOCK_SERVO_PIN = 45;
-const int16_t WING_UNLOCK_SERVO_US = 850;
+const int16_t WING_UNLOCK_SERVO_US = 900;
 
 const uint8_t MOTOR_PIN_A = 4;
 const uint8_t MOTOR_PIN_B = 5;

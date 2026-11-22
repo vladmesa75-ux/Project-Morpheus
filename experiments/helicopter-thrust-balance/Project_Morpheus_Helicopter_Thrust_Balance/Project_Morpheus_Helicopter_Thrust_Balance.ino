@@ -304,7 +304,7 @@ void setup() {
   }
 
   Serial.println("Morpheus helicopter motor balance: Due test ready");
-  Serial.println("Wing UNLOCK 850us; tail LOCKED 1000us; H-tail FOLD 1000us");
+  Serial.println("Wing UNLOCK 900us; tail LOCKED 1000us; H-tail FOLD 1000us");
   Serial.println("Wing orientation is mechanical: leave it in AIRPLANE orientation.");
   Serial.println("Remove propellers for first servo / ESC / failsafe checks.");
   printHelp();

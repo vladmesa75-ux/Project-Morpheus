@@ -14,7 +14,7 @@
   Arduino Due:
     CH2 / right-stick vertical receiver signal -> pin 46
     CH3 / throttle receiver signal            -> pin 44
-    Wing unlock servo                         -> pin 45, 850 us
+    Wing unlock servo                         -> pin 45, 900 us
     AS5600                                    -> Wire1 / I2C1
     SX1278 LoRa                               -> existing Due wiring
 
@@ -117,7 +117,7 @@ const uint8_t HTAIL_FOLD_SERVO_PIN = 43;
 const uint16_t HTAIL_FOLDED_US = 1000;
 
 const uint8_t WING_UNLOCK_SERVO_PIN = 45;
-const uint16_t WING_UNLOCK_SERVO_US = 850;
+const uint16_t WING_UNLOCK_SERVO_US = 900;
 
 // ============================================================
 // AS5600 and RPM measurement

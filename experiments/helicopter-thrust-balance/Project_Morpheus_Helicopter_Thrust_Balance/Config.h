@@ -28,9 +28,9 @@ const uint8_t OTHER_SERVO_PINS[] = {47, 49, 51};
 // in a separate landing-mode controller.
 const uint16_t TAIL_LOCKED_US = 1000;
 const uint16_t HTAIL_FOLDED_US = 1000;
-// Existing helicopter experiments use 850 us for fully open, not the
+// Existing helicopter experiments use 900 us for fully open, not the
 // airplane-mode 1300 us partial-unlock position. Verify on the real mechanism.
-const uint16_t WING_UNLOCK_US = 850;
+const uint16_t WING_UNLOCK_US = 900;
 const uint16_t OTHER_SERVO_CENTER_US = 1500;
 
 // Current six-byte Nano receiver, no Nano firmware changes required.

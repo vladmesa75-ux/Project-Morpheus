@@ -2,9 +2,9 @@
   Project Morpheus - yaw PIDF bench test
 
   Purpose:
-  - Immediately fully open the wing lock by commanding Due pin 45 to 850 us.
+  - Immediately fully open the wing lock by commanding Due pin 45 to 900 us.
   - Allow selecting the three confirmed lock positions from Serial:
-      OPEN = 850 us, PARTIAL = 1300 us (landing failsafe), LOCK = 1950 us.
+      OPEN = 900 us, PARTIAL = 1300 us (landing failsafe), LOCK = 1950 us.
   - Read fuselage yaw rate from the MPU-6050 and integrate it into a relative yaw angle.
   - Keep the relative yaw angle at 0 degrees with the bidirectional axle DC motor.
   - Measure wing/shaft rpm with the AS5600 encoder, accounting for the
@@ -21,7 +21,7 @@
   Current Project Morpheus Due wiring used here:
   - MPU-6050: Wire / I2C0, address 0x68
   - AS5600: Wire1 / I2C1, address 0x36
-  - Wing lock servo: pin 45 (850 open / 1300 partial / 1950 locked)
+  - Wing lock servo: pin 45 (900 open / 1300 partial / 1950 locked)
   - Axle motor H-bridge: pins 4 and 5
 
   Serial Monitor:
@@ -62,7 +62,7 @@ const uint16_t HTAIL_FOLDED_US = 1000;
 
 const uint8_t WING_UNLOCK_SERVO_PIN = 45;
 // Calibrated physical positions for the wing lock servo on pin 45.
-const int16_t WING_LOCK_OPEN_US = 850;          // Fully open for rotor testing.
+const int16_t WING_LOCK_OPEN_US = 900;          // Fully open for rotor testing.
 const int16_t WING_LOCK_PARTIAL_US = 1300;     // Partial: landing failsafe.
 const int16_t WING_LOCK_LOCKED_US = 1950;      // Fully locked.
 
@@ -738,7 +738,7 @@ void printHelp() {
   Serial.println("  YDIR 1 or -1                     Reverse MPU yaw direction");
   Serial.println("  EDIR 1 or -1                     Reverse encoder/rpm direction");
   Serial.println("  ZERO                              Set current heading to yaw 0");
-  Serial.println("  OPEN                              Wing lock fully open (850 us)");
+  Serial.println("  OPEN                              Wing lock fully open (900 us)");
   Serial.println("  PARTIAL                           Landing failsafe (1300 us)");
   Serial.println("  LOCK                              Wing fully locked (1950 us)");
   Serial.println("                                    Lock commands also stop the motor");

@@ -8,7 +8,7 @@
 
   The left wing must PHYSICALLY be flipped into helicopter configuration.
   This sketch does not actuate the wing-flip mechanism or use cyclic control.
-  It holds pin 45 unlocked (850 us), pin 39 tail LOCKED (1000 us),
+  It holds pin 45 unlocked (900 us), pin 39 tail LOCKED (1000 us),
   and pin 43 H-tail folded (1000 us); other Due servos are centered.
 
   Upload to the Due only. The current Nano 6-byte LoRa firmware is unchanged.
@@ -345,7 +345,7 @@ void setup() {
   }
 
   Serial.println("Morpheus helicopter lift-balance test ready");
-  Serial.println("Wing UNLOCK 850us; tail LOCKED 1000us; H-tail FOLD 1000us");
+  Serial.println("Wing UNLOCK 900us; tail LOCKED 1000us; H-tail FOLD 1000us");
   Serial.println("Physically flip the left wing into helicopter configuration.");
   Serial.println("Check control directions and failsafe with propellers removed.");
   printHelp();

@@ -8,11 +8,11 @@ Each imported Arduino sketch is in its own directory with the same name as its m
 
 | Experiment | Source | Notes |
 | --- | --- | --- |
-| IMU yaw heading hold / axle motor PIDF | [original](yaw-heading-hold/Project_Morpheus_Yaw_PIDF_Test/Project_Morpheus_Yaw_PIDF_Test.ino) | MPU6050 yaw integration; AS5600; pin 45 wing unlock at 850 µs; H-bridge pins 4/5 |
+| IMU yaw heading hold / axle motor PIDF | [original](yaw-heading-hold/Project_Morpheus_Yaw_PIDF_Test/Project_Morpheus_Yaw_PIDF_Test.ino) | MPU6050 yaw integration; AS5600; pin 45 wing unlock at 900 µs; H-bridge pins 4/5 |
 | IMU yaw heading hold / axle motor PIDF (updated) | [updated](yaw-heading-hold/Project_Morpheus_Yaw_PIDF_Test_Updated/Project_Morpheus_Yaw_PIDF_Test_Updated.ino) | Adds explicit OPEN/PARTIAL/LOCK positions, 1.34375:1 encoder gearing and lock/motor interlock |
 | Manual helicopter collective/RPM feedforward | [V1](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test/Project_Morpheus_Helicopter_Manual_RPM_FF_Test.ino) | **Legacy 18-byte LoRa packet; incompatible with current Nano** |
 | Manual helicopter collective/RPM feedforward | [V2](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V2/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V2.ino) | **Legacy 18-byte LoRa packet; incompatible with current Nano** |
-| Manual helicopter collective/RPM feedforward | [V3](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte.ino) | **6-byte LoRa format matches the current Nano packet layout**; wing unlock remains 850 µs |
+| Manual helicopter collective/RPM feedforward | [V3](helicopter-manual/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte/Project_Morpheus_Helicopter_Manual_RPM_FF_Test_V3_6Byte.ino) | **6-byte LoRa format matches the current Nano packet layout**; wing unlock remains 900 µs |
 
 ## New calibration experiment
 
@@ -22,7 +22,7 @@ Each imported Arduino sketch is in its own directory with the same name as its m
 
 - [Helicopter aerodynamic lift balance](helicopter-lift-balance/README.md): Due-only CH3 equal motor throttle and CH2 helicopter collective, with serial-adjustable signed difference between the flaperon commands. Wing flipped into helicopter configuration; tail locked. Uses unchanged Nano six-byte receiver.
 
-These began as source-preservation imports, and the 18 November servo changes are not yet compiled or hardware-tested. In particular, the wing-lock pulse in these experiments remains **850 µs**, different from airplane-mode CH6 settings; review mechanical clearance before running them. Fixed H-tail servo commands do not confirm that folding has physically completed.
+These began as source-preservation imports; after the 18 November H-tail update, the 22 November wing-unlock calibration sets fully open to **900 µs** across all tracked tests. These changes are not yet compiled or hardware-tested. In particular, the wing-lock pulse in these experiments remains **900 µs**, different from airplane-mode CH6 settings; review mechanical clearance before running them. Fixed H-tail servo commands do not confirm that folding has physically completed.
 
 ## Other experiment versions located but not yet importable
 

@@ -13,7 +13,7 @@ Open [`Project_Morpheus_Helicopter_Lift_Balance.ino`](Project_Morpheus_Helicopte
 | Nano D4, left flaperon | Helicopter V3 direction `-1` (left wing physically flipped 180°) plus half of trim |
 | Nano D6, right flaperon | Helicopter V3 direction `-1` minus half of trim |
 | Nano D8 and D7 ESCs | **Exactly the same motor byte**; no motor trim |
-| Due pin 45 | Wing **unlocked**, 850 µs |
+| Due pin 45 | Wing **unlocked**, 900 µs |
 | Due pin 39 | Tail **locked**, 1000 µs (only unlock during landing with a different controller) |
 | Due pin 43 | H-tail **folded**, 1000 µs |
 | Due pins 47, 49, 51 | 1500 µs neutral |
