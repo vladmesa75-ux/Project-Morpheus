@@ -42,6 +42,7 @@ struct Rotor {
 };
 struct Tuning {
   Gains rpm = cfg::rpmGains, heading = cfg::headingGains, rate = cfg::rateGains;
+  float rpmSetpoint = cfg::targetRpm, rpmEscCap = cfg::governorEscMax;
   float rpmF = cfg::rpmFfPerRpm, rpmCollectiveF = cfg::rpmFfPerRpmDegree;
   float yawBias = cfg::yawFfBias, yawRpmF = cfg::yawFfPerRpm, yawRateF = cfg::yawFfPerTargetDps;
 };

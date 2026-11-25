@@ -155,6 +155,11 @@ static void pidAndGovernor() {
   near(gov.target, 0);
   near(gov.thrust, 0);
   near(gov.pid.i, 0);
+  tune.rpmSetpoint = 35;
+  tune.rpmEscCap = 12;
+  for (int i = 0; i < 100; i++) gov.step(0, 5, 0.1f, tune);
+  near(gov.target, 35);
+  near(gov.thrust, 12);
 }
 static void interlocks() {
   const Modes governor = modesFor(Profile::RpmTuning), manual = modesFor(Profile::YawTuning);

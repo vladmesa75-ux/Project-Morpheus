@@ -36,7 +36,7 @@ void stepControllers(uint32_t now) {
       f.governor.step(f.rotor.rpm, f.out.collective, seconds(now - lastGovernor), f.tuning);
       lastGovernor = now;
     }
-    setEscs(f.out, f.governor.thrust, cfg::governorEscMax);
+    setEscs(f.out, f.governor.thrust, f.tuning.rpmEscCap);
   } else {
     setEscs(f.out, manualThrottle(f.rc), cfg::manualEscMax);
   }

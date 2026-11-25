@@ -53,7 +53,7 @@ The radio is one-way. The Due reports **completed local transmissions**. A recei
 
 ## Serial tuning and telemetry
 
-Use the Due programming USB port at **115200 baud**, newline line ending. Commands are case-insensitive.
+Use the Due programming USB port at **115200 baud**, newline line ending. Commands are case-insensitive. The [RPM tuning guide](MorpheusHelicopter/examples/RpmTuning/README.md) covers the readable monitor, feedforward estimate, per-run target and cap, run reports and exporting tuned gains.
 
 | Command | Effect |
 | --- | --- |
