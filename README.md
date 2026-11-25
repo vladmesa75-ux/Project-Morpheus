@@ -11,6 +11,7 @@ Experimental VTOL aircraft firmware and technical notes.
 | Location | Purpose |
 | --- | --- |
 | [Due airplane-mode sketch](firmware/airplane-mode/DueFlightComputerBase_v2/) | Current main airplane-mode flight computer; Arduino Due |
+| [Helicopter flight firmware and tuning sketches](firmware/helicopter-mode/README.md) | Due helicopter controls, shared configuration, Nano calibration and bench procedure |
 | [Nano receiver sketch](firmware/nano-receiver/NanoLoraServoReceiver_6Byte/) | Current compact 6-byte LoRa receiver; Arduino Nano |
 | [Configuration guide](docs/configuration.md) | Where to change pins, servo endpoints, RC inputs, sensors, LoRa, logging, etc. |
 | [Wiring reference](docs/hardware.md) | As-coded board pin maps and hardware notes |
