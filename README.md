@@ -12,7 +12,9 @@ Experimental VTOL aircraft firmware and technical notes.
 | --- | --- |
 | [Due airplane-mode sketch](firmware/airplane-mode/DueFlightComputerBase_v2/) | Current main airplane-mode flight computer; Arduino Due |
 | [Helicopter flight firmware and tuning sketches](firmware/helicopter-mode/README.md) | Due helicopter controls, shared configuration, Nano calibration and bench procedure |
-| [Nano receiver sketch](firmware/nano-receiver/NanoLoraServoReceiver_6Byte/) | Current compact 6-byte LoRa receiver; Arduino Nano |
+| [Nano receiver sketch](firmware/nano-receiver/NanoFlaperonReceiver/) | Packet-timed flaperon receiver for the classic Nano. Complete both calibration rows before use. |
+| [Nano calibration bench and instructions](firmware/nano-receiver/README.md) | Measure the linkage for the new receiver |
+| [Archived Nano receiver](archive/nano-receiver/NanoLoraServoReceiver_6Byte/) | Original Servo-library receiver with its previous calibration |
 | [Configuration guide](docs/configuration.md) | Where to change pins, servo endpoints, RC inputs, sensors, LoRa, logging, etc. |
 | [Wiring reference](docs/hardware.md) | As-coded board pin maps and hardware notes |
 | [LoRa protocol](docs/lora-protocol.md) | Shared 6-byte packet, checksum and radio compatibility |
@@ -29,9 +31,9 @@ Experimental VTOL aircraft firmware and technical notes.
 Open the main `.ino` file *inside* the sketch folder. Keep the other `.ino` and `.h` tabs beside it. Arduino requires the primary `.ino` to have the same name as its containing folder.
 
 - Due: `firmware/airplane-mode/DueFlightComputerBase_v2/DueFlightComputerBase_v2.ino`
-- Nano: `firmware/nano-receiver/NanoLoraServoReceiver_6Byte/NanoLoraServoReceiver_6Byte.ino`
+- Nano: `firmware/nano-receiver/NanoFlaperonReceiver/NanoFlaperonReceiver.ino`
 
-Install the correct board support package and libraries. Due requires `Adafruit MPU6050`, `Adafruit Unified Sensor`, `LoRa` (Sandeep Mistry), and their dependencies; both sketches use `Servo` and `SPI`. The Nano sketch also uses the `LoRa` library. Match the physical board/processor and library versions before flashing.
+Install the correct board support package and libraries. Due requires `Adafruit MPU6050`, `Adafruit Unified Sensor`, `LoRa` (Sandeep Mistry), and their dependencies; the Due uses `Servo` and `SPI`. The Nano uses Timer1 directly, `SPI`, and `LoRa`. Match the physical board/processor and library versions before flashing.
 
 ## Design principles
 

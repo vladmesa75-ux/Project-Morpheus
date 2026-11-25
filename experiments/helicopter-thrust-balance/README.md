@@ -2,7 +2,7 @@
 
 This standalone calibration sketch sends **two independently adjustable motor commands** over the aircraft's existing six-byte LoRa protocol. It is deliberately isolated from production airplane-mode firmware.
 
-**Open in Arduino IDE:** [`Project_Morpheus_Helicopter_Thrust_Balance/Project_Morpheus_Helicopter_Thrust_Balance.ino`](Project_Morpheus_Helicopter_Thrust_Balance/Project_Morpheus_Helicopter_Thrust_Balance.ino). Keep the adjacent `Config.h` in the same sketch folder. Upload to the **Arduino Due**; keep the existing `NanoLoraServoReceiver_6Byte` firmware installed on the Nano. There is no Nano serial connection or reflashing step.
+**Open in Arduino IDE:** [`Project_Morpheus_Helicopter_Thrust_Balance/Project_Morpheus_Helicopter_Thrust_Balance.ino`](Project_Morpheus_Helicopter_Thrust_Balance/Project_Morpheus_Helicopter_Thrust_Balance.ino). Keep the adjacent `Config.h` in the same sketch folder. Upload to the **Arduino Due**; keep the receiver used for this test ([archived `NanoLoraServoReceiver_6Byte`](../../archive/nano-receiver/NanoLoraServoReceiver_6Byte/)) installed on the Nano. There is no Nano serial connection or reflashing step.
 
 ## What it commands
 

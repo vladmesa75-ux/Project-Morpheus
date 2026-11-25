@@ -14,7 +14,7 @@ Open [MorpheusHelicopter.ino](MorpheusHelicopter/MorpheusHelicopter.ino) for the
 
 Edit the `flight` entry in `Config.h` to enable each function. For manual thrust select `RotorMode::Manual` and `CollectiveMode::Fixed` together. Select `YawMode::Off` for zero axle power. The yaw tuning sketch uses the configured yaw mode, or heading mode if the flight setting is off. CH5 is spare. The directly connected elevator still follows CH2.
 
-**Initial values are for commissioning.** Both PIDF controllers ship with zero gains and feedforward. CH6 reports `untuned` if a selected controller has no coefficients. Gain values can be tried on a tuning sketch with CH6 off. Transfer the measured coefficients to the shared configuration and rebuild the flight sketch. The updated Nano also requires two complete measured servo calibration rows before it accepts motor or surface commands. [Nano bench procedure and receiver](../../experiments/nano-flaperon-calibration/README.md)
+**Initial values are for commissioning.** Both PIDF controllers ship with zero gains and feedforward. CH6 reports `untuned` if a selected controller has no coefficients. Gain values can be tried on a tuning sketch with CH6 off. Transfer the measured coefficients to the shared configuration and rebuild the flight sketch. The updated Nano also requires two complete measured servo calibration rows before it accepts motor or surface commands. [Nano bench procedure and receiver](../nano-receiver/README.md)
 
 ## Configuration
 

@@ -65,7 +65,7 @@ These companion sources are **not copied into this experiment folder**. The two 
 | Nano spare servos | `NS 3`/`NS 4` transmitted in the old 18-byte frame | D3 and D5 are **locally centered**; signed values 3/4 are not transmitted |
 | Nano ESCs | Old ESC command fields are bytes **4/5** | Current ESC command fields are bytes **2/3** |
 
-Although the radio frequency and related LoRa settings may match, **packet length and field layout do not**. The current `NanoLoraServoReceiver_6Byte` rejects an 18-byte transmission as the wrong size. Replacing only the Due main tab while keeping current 6-byte `LoraTelemetry.ino`/`Config.h` would also change the test's behavior, remove the extra Nano servo commands, and invalidate its seven-servo pin documentation.
+Although the radio frequency and related LoRa settings may match, **packet length and field layout do not**. Both the current `NanoFlaperonReceiver` and archived `NanoLoraServoReceiver_6Byte` reject an 18-byte transmission as the wrong size. Replacing only the Due main tab while keeping current 6-byte `LoraTelemetry.ino`/`Config.h` would also change the test's behavior, remove the extra Nano servo commands, and invalidate its seven-servo pin documentation.
 
 The current Nano config maps flaperons to **D4 and D6**, spare locally centered servos to **D3 and D5**, and ESCs to **D8 and D7**; its ESC input maps against a configured maximum of **254**, rather than the archived test's 255-range command assumption. The current airplane mode also uses pin **39** for tail unlock, **45** for the CH6 servo and reserves **43** for a planned H-tail folding servo. These are not the original V-tail assumptions. **Verify the assembled aircraft wiring before any actuation.**
 

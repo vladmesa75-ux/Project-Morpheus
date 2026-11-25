@@ -1,14 +1,15 @@
 # Configuration guide
 
-The imported firmware already uses one `Config.h` per controller. Keep configuration data here rather than scattering raw numbers across implementation files. This is the **current arrangement**, not yet a single cross-board generated configuration system.
+The airplane-mode Due keeps its configuration in `Config.h`. The packet-timed Nano keeps its measured linkage settings in `Calibration.h`.
 
 ## Edit these files
 
 - **Arduino Due:** [`firmware/airplane-mode/DueFlightComputerBase_v2/Config.h`](../firmware/airplane-mode/DueFlightComputerBase_v2/Config.h)
-- **Arduino Nano:** [`firmware/nano-receiver/NanoLoraServoReceiver_6Byte/Config.h`](../firmware/nano-receiver/NanoLoraServoReceiver_6Byte/Config.h)
+- **Arduino Nano:** [Current calibration and bench instructions](../firmware/nano-receiver/README.md)
+- **Archived Nano:** [Original receiver settings](../archive/nano-receiver/NanoLoraServoReceiver_6Byte/Config.h)
 - **Experimental tests:** each future test gets its *own* clearly named local config; do not import flight-ready calibration into an experiment implicitly.
 
-## Where the settings are
+## Imported airplane-mode and archived Nano settings
 
 | Setting | Due | Nano |
 | --- | --- | --- |
@@ -33,7 +34,7 @@ The imported firmware already uses one `Config.h` per controller. Keep configura
 5. Verify neutral, full positive/negative travel, reversed directions, switch states, and signal-loss behavior.
 6. Commit with a descriptive message such as `Tune Nano D4 flaperon center to 1430 us`.
 
-## Current important exceptions
+## Notes on the imported Due and archived Nano
 
 - **Tail unlocking servo (Due pin 39):** CH6 high (wing-lock servo on pin 45 at 1950 µs, locked) commands **1000 µs**; CH6 low/middle (wing lock at 1300 µs, partially unlocked) commands **1700 µs**. RC failsafe uses 1700 µs, matching the existing wing-lock failsafe state.
 - **H-tail folding servo:** physical Due pin **43** (`SERVO_PINS[1]`), commanded **2200 µs unfolded** for airplane startup, normal operation and RC failsafe. The five tracked helicopter/rotor tests separately command **1000 µs folded** on pin 43. No automated mode transition or fold-completion interlock is implemented. Verify geometry, pulse direction, end stops and clearance before powered testing.
