@@ -9,3 +9,5 @@ g++ "${flags[@]}" ../tests/control_test.cpp "${tabs[@]}" -o "$build_dir/control"
 "$build_dir/control"
 g++ "${flags[@]}" -I../tests/host ../tests/flight_loop_test.cpp FlightComputer.cpp "${tabs[@]}" -o "$build_dir/flight"
 for profile in flight rpm yaw; do "$build_dir/flight" "$profile"; done
+g++ "${flags[@]}" -I../tests/serial_host ../tests/rpm_console_test.cpp LoggingDebug.cpp RpmTuningConsole.cpp -o "$build_dir/rpm_console"
+"$build_dir/rpm_console"

@@ -1,5 +1,6 @@
 #include "FlightData.h"
 #include "Hardware.h"
+#include "RpmTuningConsole.h"
 #include <Arduino.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,18 +44,10 @@ struct Sink {
 };
 Sink usb, logSink;
 Row reply;
+RpmConsole rpmConsole;
 char command[60];
 size_t used = 0;
 bool discard = false;
-const char *stateName(State s) {
-  const char *names[] = {"wait_off", "off", "spooling", "running", "faulted"};
-  return names[unsigned(s)];
-}
-const char *faultName(Fault s) {
-  const char *names[] = {"none",      "receiver", "radio",   "encoder",     "imu",     "timing",
-                         "overspeed", "runup",    "low_rpm", "start_stick", "untuned", "settling"};
-  return names[unsigned(s)];
-}
 struct Fields {
   Row &row;
   bool csv, header, first;
@@ -118,6 +111,39 @@ void render(Sink &sink, const FlightData &f, uint32_t ms, bool csv, bool header)
   Row &row = sink.row;
   View v = sink.view;
   bool all = v == View::All;
+  if (f.profile == Profile::RpmTuning && !csv && rpmConsole.monitor) {
+    row.print(stateName(f.gate.state));
+    if (f.gate.state == State::Faulted) {
+      row.print('/');
+      row.print(faultName(f.gate.reason));
+    }
+    row.print(" | RPM ");
+    row.print(f.rotor.rpm, 1);
+    row.print(" / ramp ");
+    row.print(f.governor.target, 1);
+    row.print(" / goal ");
+    row.print(f.tuning.rpmSetpoint, 1);
+    row.print(" | error ");
+    row.print(f.governor.target - f.rotor.rpm, 1);
+    row.print(" | P/I/D/F ");
+    row.print(f.governor.pid.p, 2);
+    row.print('/');
+    row.print(f.governor.pid.i, 2);
+    row.print('/');
+    row.print(f.governor.pid.d, 2);
+    row.print('/');
+    row.print(f.governor.pid.f, 2);
+    row.print(" | ESC L/R ");
+    row.print(f.out.leftEsc);
+    row.print('/');
+    row.print(f.out.rightEsc);
+    row.print(" | collective deg ");
+    row.print(f.out.collective, 1);
+    if (f.governor.pid.limited)
+      row.print(" | output limited");
+    row.println();
+    return;
+  }
   Fields x = {row, csv, header, true, csv ? cfg::openLogFields : cfg::usbFields};
   if (csv || all || v == View::Status)
     x.integer("ms", ms);
@@ -148,7 +174,13 @@ void render(Sink &sink, const FlightData &f, uint32_t ms, bool csv, bool header)
     x.add("rpm", f.rotor.rpm);
   if (all || v == View::Rpm) {
     x.add("rpm_window", f.rotor.windowRpm);
-    x.add("rpm_set", cfg::targetRpm);
+    x.add("rpm_set", f.tuning.rpmSetpoint);
+    if (f.profile == Profile::RpmTuning) {
+      x.add("rpm_error", f.governor.target - f.rotor.rpm);
+      x.add("esc_cap", f.tuning.rpmEscCap, 0);
+      if (v == View::Rpm)
+        x.integer("state", unsigned(f.gate.state));
+    }
     x.add("rpm_ramp", f.governor.target);
     x.add("governor_esc", f.governor.thrust);
     x.terms(f.governor.pid, true);
@@ -224,18 +256,28 @@ void process(FlightData &f, char *line) {
     return;
   char *key = strtok_r(nullptr, " \t", &save);
   char *val = strtok_r(nullptr, " \t", &save);
-  if (!strcmp(op, "VIEW") && key) {
+  if (strtok_r(nullptr, " \t", &save)) {
+    reply.println("Too many arguments");
+    return;
+  }
+  const bool rpm = f.profile == Profile::RpmTuning;
+  if (rpm && rpmConsole.command(f, op, key, val, reply))
+    return;
+  if (!strcmp(op, "VIEW") && key && !val) {
     const char *names[] = {"STATUS", "RPM", "YAW", "CYCLIC", "ALL"};
     for (unsigned i = 0; i < 5; i++)
       if (!strcmp(key, names[i])) {
         usb.view = View(i);
+        if (rpm) {
+          rpmConsole.monitor = false;
+          rpmConsole.stream = true;
+        }
         reply.println("OK");
         return;
       }
   }
-  bool rpm = f.profile == Profile::RpmTuning;
   Gains &g = rpm ? f.tuning.rpm : (f.modes.yaw == YawMode::Rate ? f.tuning.rate : f.tuning.heading);
-  if (!strcmp(op, "GAINS")) {
+  if (!strcmp(op, "GAINS") && !key) {
     reply.print("P I D F0 FR FC FV: ");
     reply.print(g.kp, 5);
     reply.print(' ');
@@ -252,7 +294,7 @@ void process(FlightData &f, char *line) {
     reply.println(rpm ? 0 : f.tuning.yawRateF, 5);
     return;
   }
-  if (!strcmp(op, "SET") && key && val && !strtok_r(nullptr, " \t", &save)) {
+  if (!strcmp(op, "SET") && key && val) {
     if (f.profile == Profile::Flight) {
       reply.println("Use a tuning sketch for SET");
       return;
@@ -290,7 +332,10 @@ void process(FlightData &f, char *line) {
       return;
     }
   }
-  reply.println("VIEW STATUS/RPM/YAW/CYCLIC/ALL | GAINS | tuning: SET key value");
+  if (rpm)
+    reply.println("Unknown RPM tuning command or value. Type HELP.");
+  else
+    reply.println("VIEW STATUS/RPM/YAW/CYCLIC/ALL | GAINS | tuning: SET key value");
 }
 } // namespace
 void startTelemetry(Profile profile) {
@@ -302,6 +347,8 @@ void startTelemetry(Profile profile) {
              : profile == Profile::YawTuning ? View::Yaw
                                              : cfg::usbView;
   logSink.view = cfg::openLogView;
+  if (profile == Profile::RpmTuning && cfg::usbEnabled)
+    rpmConsole.help(reply);
 }
 void console(FlightData &f) {
   if (!cfg::usbEnabled || reply.size)
@@ -328,12 +375,18 @@ void console(FlightData &f) {
 }
 void logTelemetry(const FlightData &f, uint32_t now) {
   if (cfg::usbEnabled) {
+    bool rpm = f.profile == Profile::RpmTuning;
+    if (rpm)
+      rpmConsole.observe(f, now);
     if (reply.size) {
       usb.row.drain(Serial);
       if (!usb.row.size)
         reply.drain(Serial);
-    } else
-      emit(usb, Serial, f, now, cfg::usbIntervalMs, false);
+    } else if (!rpm || rpmConsole.stream) {
+      emit(usb, Serial, f, now, rpm ? rpmConsole.intervalMs : cfg::usbIntervalMs, false);
+    } else {
+      usb.row.drain(Serial);
+    }
   }
   if (cfg::openLogEnabled)
     emit(logSink, Serial2, f, now, cfg::openLogIntervalMs, true);
